@@ -27,7 +27,8 @@ endif
 
 # Need MACOS_X defined or this won't build.
 ifeq ($(PLATFORM),darwin)
-  LCC_CFLAGS += -DMACOS_X
+  LCC_CFLAGS += -DMACOS_X \
+	-Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes -pipe -Wno-unused-result -I/usr/local/include/SDL2 -I/usr/include -I/usr/local/include -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -DTEMPDIR=\"/tmp\" -DSYSTEM=\"\"
 endif
 
 ifeq ($(PLATFORM),sunos)
@@ -140,14 +141,14 @@ $(BD)etc/%$(O): etc/%.c
 
 
 install: q3lcc q3cpp q3rcc
-	$(INSTALL) -s -m 0755 $(BD)q3lcc$(E) ../
-	$(INSTALL) -s -m 0755 $(BD)q3cpp$(E) ../
-	$(INSTALL) -s -m 0755 $(BD)q3rcc$(E) ../
+	$(INSTALL) -s -m 0755 $(BD)q3lcc$(E) $(DESTDIR)
+	$(INSTALL) -s -m 0755 $(BD)q3cpp$(E) $(DESTDIR)
+	$(INSTALL) -s -m 0755 $(BD)q3rcc$(E) $(DESTDIR)
 
 uninstall:
-	-$(RM) ../q3lcc$(E)
-	-$(RM) ../q3cpp$(E)
-	-$(RM) ../q3rcc$(E)
+	-$(RM) $(DESTDIR)/q3lcc$(E)
+	-$(RM) $(DESTDIR)/q3cpp$(E)
+	-$(RM) $(DESTDIR)/q3rcc$(E)
 
 clean:
 	if [ -d $(BD) ];then (find $(BD) -name '*.d' -exec rm {} \;)fi
