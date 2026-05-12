@@ -1,16 +1,3 @@
-/* C compiler: prof.out input
-
-prof.out format:
-#files
-    name
-    ... (#files-1 times)
-#functions
-    name file# x y count caller file x y 
-    ... (#functions-1 times)
-#points
-    file# x y count
-    ... (#points-1 times)
-*/
 #include "c.h"
 
 
