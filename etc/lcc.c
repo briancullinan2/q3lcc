@@ -255,6 +255,10 @@ static int _spawnvp(int mode, const char *cmdname, const char *const argv[]) {
 #endif
 #endif
 
+#ifdef __wasi__
+extern int callsys(char **av);
+#else
+
 /* callsys - execute the command described by av[0...], return status */
 static int callsys(char **av) {
 	int i, status = 0;
@@ -301,6 +305,8 @@ static int callsys(char **av) {
 	}
 	return status;
 }
+
+#endif
 
 /* concat - return concatenation of strings s1 and s2 */
 char *concat(char *s1, char *s2) {
