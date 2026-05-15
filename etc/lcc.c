@@ -217,6 +217,9 @@ char *basepath(char *name) {
 	return s;
 }
 
+#ifdef __wasi__
+extern int _spawnvp(int mode, const char *cmdname, const char *const argv[]);
+#else
 #ifdef _WIN32
 #include <process.h>
 #else
@@ -224,12 +227,7 @@ char *basepath(char *name) {
 extern int fork(void);
 extern int wait(int *);
 
-#ifdef __wasi__
-__attribute__((visibility("default")))
-#else
-static 
-#endif
-int _spawnvp(int mode, const char *cmdname, const char *const argv[]) {
+static int _spawnvp(int mode, const char *cmdname, const char *const argv[]) {
 	int pid, n, status;
 
 	switch (pid = fork()) {
@@ -253,6 +251,7 @@ int _spawnvp(int mode, const char *cmdname, const char *const argv[]) {
 	}
 	return (status>>8)&0377;
 }
+#endif
 #endif
 
 /* callsys - execute the command described by av[0...], return status */
