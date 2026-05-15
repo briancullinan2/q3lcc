@@ -224,7 +224,12 @@ char *basepath(char *name) {
 extern int fork(void);
 extern int wait(int *);
 
-static int _spawnvp(int mode, const char *cmdname, const char *const argv[]) {
+#ifdef __wasi__
+__attribute__((visibility("default")))
+#else
+static 
+#endif
+int _spawnvp(int mode, const char *cmdname, const char *const argv[]) {
 	int pid, n, status;
 
 	switch (pid = fork()) {
