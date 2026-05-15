@@ -218,6 +218,7 @@ char *basepath(char *name) {
 }
 
 #ifdef __wasi__
+#define _P_WAIT 0
 extern int _spawnvp(int mode, const char *cmdname, const char *const argv[]);
 #else
 #ifdef _WIN32
